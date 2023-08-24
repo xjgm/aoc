@@ -1,24 +1,32 @@
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 
-ssize_t getline(char **restrict lineptr, size_t *restrict n, FILE *restrict stream);
+ssize_t getline(char **restrict line, size_t *restrict len, FILE *restrict fp);
 void save_sum(int max[3], int sum);
 
 int main(void) {
     FILE *fp = fopen("input.txt", "r");
+
     if (fp == NULL) {
         perror("fopen");
-        exit(1);
+        return -1;
     }
 
     char *line = NULL;
     size_t len = 0;
     int max[3] = {0, 0, 0};
-    int sum = 0;
+    int sum, s = 0;
 
     while (getline(&line, &len, fp) != EOF) {
-        sum += atoi(line);
+        s = atoi(line);
+
+        if (s > 0 && sum > INT_MAX - s) {
+            return -1;
+        }
+
+        sum += s;
 
         if (line[0] == '\n') {
             save_sum(max, sum);
@@ -26,22 +34,26 @@ int main(void) {
         }
     }
 
-    // XXX: this should/could be handled diffrently
     if (sum > 0) {
         save_sum(max, sum);
-        sum = 0;
     }
 
     free(line);
     fclose(fp);
 
     int total = 0;
+
     for (int i = 0; i < 3; i++) {
+        if (max[i] > 0 && total > INT_MAX - max[i]) {
+            return -1;
+        }
+
         printf("max: %d\n", max[i]);
         total += max[i];
     }
+
     printf("total: %d\n", total);
-    exit(0);
+    return 0;
 }
 
 void save_sum(int max[3], int sum) {
@@ -54,22 +66,3 @@ void save_sum(int max[3], int sum) {
         }
     }
 }
-
-/*
-
-0 = 10
-1 = 8
-2 = 4
-
--> 9
-
-1
-
-2 = 1
-1 = sum
-
-for n = 2; n >= 0; n--;
-    if n > 0
-    2 = [n-1]
-
-*/

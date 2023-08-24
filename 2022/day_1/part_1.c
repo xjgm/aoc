@@ -1,23 +1,31 @@
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
+
+ssize_t getline(char **restrict line, size_t *restrict len, FILE *restrict fp);
 
 int main(void) {
     FILE *fp;
     char *line = NULL;
     size_t len = 0;
-    ssize_t nread;
 
     fp = fopen("input.txt", "r");
     if (fp == NULL) {
         perror("fopen");
-        exit(1);
+        return -1;
     }
 
-    int max, sum = 0;
+    int max, sum, s = 0;
 
-    while ((nread = getline(&line, &len, fp)) != -1) {
-        sum += atoi(line);
+    while (getline(&line, &len, fp) != EOF) {
+        s = atoi(line);
+
+        if (s > 0 && sum > INT_MAX - s) {
+            return -1;
+        }
+
+        sum += s;
 
         if (line[0] == '\n') {
             if (sum > max)
@@ -30,5 +38,5 @@ int main(void) {
     fclose(fp);
 
     printf("max: %d\n", max);
-    exit(0);
+    return 0;
 }
