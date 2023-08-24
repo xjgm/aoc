@@ -2,24 +2,22 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
+ssize_t getline(char **restrict lineptr, size_t *restrict n, FILE *restrict stream);
 void save_sum(int max[3], int sum);
 
 int main(void) {
-    FILE *fp;
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t nread;
-
-    fp = fopen("input.txt", "r");
+    FILE *fp = fopen("input.txt", "r");
     if (fp == NULL) {
         perror("fopen");
         exit(1);
     }
 
+    char *line = NULL;
+    size_t len = 0;
     int max[3] = {0, 0, 0};
     int sum = 0;
 
-    while ((nread = getline(&line, &len, fp)) != -1) {
+    while (getline(&line, &len, fp) != EOF) {
         sum += atoi(line);
 
         if (line[0] == '\n') {
