@@ -23,12 +23,6 @@ int main(void) {
     char *line = NULL;
     size_t len = 0;
     round rounds[] = {
-        // X: lose, Y: draw, Z: win
-        /*
-        A Y
-        B X
-        C Z
-        */
         {"A X", 3 + 0},
         {"A Y", 1 + 3},
         {"A Z", 2 + 6},
