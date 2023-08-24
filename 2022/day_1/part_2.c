@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
-ssize_t getline(char **restrict line, size_t *restrict len, FILE *restrict fp);
-void save_sum(int max[3], int sum);
+ssize_t getline(char **restrict, size_t *restrict, FILE *restrict);
+void save_sum(int[], int);
 
 int main(void) {
     FILE *fp = fopen("input.txt", "r");

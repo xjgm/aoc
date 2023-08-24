@@ -3,19 +3,18 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
-ssize_t getline(char **restrict line, size_t *restrict len, FILE *restrict fp);
+ssize_t getline(char **restrict, size_t *restrict, FILE *restrict);
 
 int main(void) {
-    FILE *fp;
-    char *line = NULL;
-    size_t len = 0;
+    FILE *fp = fopen("input.txt", "r");
 
-    fp = fopen("input.txt", "r");
     if (fp == NULL) {
         perror("fopen");
         return -1;
     }
 
+    char *line = NULL;
+    size_t len = 0;
     int max, sum, s = 0;
 
     while (getline(&line, &len, fp) != EOF) {
