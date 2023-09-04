@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
-ssize_t getline(char **restrict, size_t *restrict, FILE *restrict);
-
 int
 main(void)
 {

@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
-ssize_t getline(char **restrict, size_t *restrict, FILE *restrict);
-void    save_sum(int[], int);
+void save_sum(int[], int);
 
 int
 main(void)

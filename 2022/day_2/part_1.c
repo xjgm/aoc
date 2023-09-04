@@ -9,8 +9,7 @@ typedef struct {
         int   score;
 } round;
 
-ssize_t getline(char **restrict, size_t *restrict, FILE *restrict);
-int     score_round(round *, size_t, const char *);
+int score_round(round *, size_t, const char *);
 
 int
 main(void)
